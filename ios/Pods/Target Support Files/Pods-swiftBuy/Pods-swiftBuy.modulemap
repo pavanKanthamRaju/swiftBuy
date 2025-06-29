@@ -1,0 +1,6 @@
+module Pods_swiftBuy {
+  umbrella header "Pods-swiftBuy-umbrella.h"
+
+  export *
+  module * { export * }
+}

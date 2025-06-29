@@ -8,6 +8,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider, useAuth } from '../hooks/useAuth'; // Adjust this import if needed
+import {CartProvider, useCart} from '../hooks/cortContext'
 
 function LayoutContent() {
   const colorScheme = useColorScheme();
@@ -48,7 +49,9 @@ function LayoutContent() {
 export default function RootLayout() {
   return (
     <AuthProvider>
+      <CartProvider>
       <LayoutContent />
+      </CartProvider>
     </AuthProvider>
   );
 }

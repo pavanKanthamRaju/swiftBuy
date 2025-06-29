@@ -20,13 +20,16 @@ const handleLogin = async()=>{
 const response  = await api.post("/auth/login/",{email,password})
 
 const {token, user} = response.data
-await login(token)
+await login(token,user)
 hideSpinner();
 router.replace('/(tabs)');
 Alert.alert("success", "Login successfull")
+
     }
     catch(err:any){
+      hideSpinner();
 Alert.alert("Login Failed", err.message)
+
     }
 }
 return(
