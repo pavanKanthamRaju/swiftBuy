@@ -10,8 +10,8 @@ export const addToCartApi  = async(productId: string, quantity: number)=>{
             quantity
         })
         if(response.status == 200){
-            const data = await response.data();
-            Alert.alert(`tem added to cart Successfully`)
+            return response.data.cart
+            // Alert.alert(`item added to cart Successfully`)
         }else{
             Alert.alert(`Something went wrong...`)
         }
@@ -35,10 +35,10 @@ export const addToCartApi  = async(productId: string, quantity: number)=>{
         
     }
     export const removeCartItemApi  = async(productId: string)=>{
+        console.log("remove cart product id   "+ productId)
 try{
     const res = await api.delete(`/cart/remove/${productId}`)
     if(res.status ==200){
-        Alert.alert("cart Item removed successfullt...")
         console.log(res.data)
         return res.data
         
@@ -46,6 +46,17 @@ try{
 }catch(err){
     Alert.alert("something went wrong...")
 }
+    }
+    export const cleareCartApi = async()=>{
+        try{
+            const res = await api.post("/cart/clearCart")
+            if(res.status == 200){
+                Alert.alert("cart has been cleard")
+                return res.data
+            }
+        }catch(err){
+            Alert.alert("Something went wrong "+err);
+        }
     }
     
 

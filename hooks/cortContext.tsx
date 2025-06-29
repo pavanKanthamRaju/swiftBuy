@@ -1,7 +1,7 @@
 import React,{createContext,useContext, useEffect, useState} from 'react';
 import { useAuth } from './useAuth';
 import {addToGuestCart, loadGuestCart, clearGuestCart} from '../utils/cartStorage';
-import { addToCartApi, removeCartItemApi,getCart } from '@/utils/api/cart';
+import { addToCartApi, removeCartItemApi,getCart, cleareCartApi } from '@/utils/api/cart';
 import { AnimateStyle } from 'react-native-reanimated';
 
 
@@ -17,6 +17,7 @@ type cartContextType = {
     addToCart: (item: CartItem)=> void;
     clearCart: ()=>void
     removeCartItem : (item: CartItem)=>void
+
 }    
 const cartContext = createContext<cartContextType | undefined>(undefined)
 
@@ -58,7 +59,7 @@ export const CartProvider = ({children}: {children: React.ReactNode})=>{
         }
 
         const addToCart = async(item: CartItem) :Promise<void> => {
-          const quantityToAdd = item.quantity ?? 1;
+          const quantityToAdd = 1;
         
           const exist = cartItems.find(i => i.productId === item.productId);
           const updated: CartItem[] = exist
@@ -75,13 +76,17 @@ export const CartProvider = ({children}: {children: React.ReactNode})=>{
         
 const clearCart = async()=>{
     setCartItems([]);
-    if(!user) await clearGuestCart();
+    if(!user)
+      {
+        await clearGuestCart();
+      }else{
+        cleareCartApi();
+      } 
 }
 const removeCartItem = async (item: CartItem) => {
-    console.log("remove cart iteh has been it...")
+   
     const exist = cartItems.find(i => i.productId === item.productId);
-    console.log("item id "+ item.productId)
-    console.log("exist   "+cartItems[0].productId)
+    
     if (!exist) return; // Do nothing if not in cart
   
     let updated: CartItem[];

@@ -1,12 +1,21 @@
 import React from 'react';
-import { View, Text, Image, FlatList, Button, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, Image, FlatList, Button, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { CartItem, useCart } from '../../hooks/cortContext'; // adjust path
+import { Ionicons } from '@expo/vector-icons';
 
 export default function CartScreen() {
-  const { cartItems, removeCartItem, clearCart } = useCart();
+  const { cartItems, removeCartItem, clearCart, addToCart } = useCart();
 
   const [loading, setLoading] = React.useState(true);
-
+const addTocartFromCart = async(item:CartItem)=>{
+  await addToCart({
+    productId: item.productId,
+    name:item.name,
+    imageUrl:item.imageUrl,
+    price:item.price,
+    quantity:item.quantity
+})
+}
   React.useEffect(() => {
     // Delay to simulate loading (optional)
     const timeout = setTimeout(() => {
@@ -28,8 +37,17 @@ export default function CartScreen() {
         <Image source={{ uri: item.imageUrl }} style={styles.image} />
         <View style={styles.info}>
           <Text style={styles.name}>{item.name}</Text>
-          <Text>₹{item.price} x {item.quantity} = ₹{item.price * item.quantity}</Text>
-          <Button title="Remove" onPress={() => removeCartItem(item)} />
+          <Text style={{fontSize: 16,}}>₹{item.price} x {item.quantity} = ₹{item.price * item.quantity}</Text>
+          <View style={{  flexDirection: "row", padding:10 }}>
+            <TouchableOpacity onPress={()=>addTocartFromCart(item)}>
+              <Ionicons name="add-circle" size={24} />
+            </TouchableOpacity>
+            <Text style={{fontSize: 18, fontWeight:"800", marginLeft:7, marginRight:7}}>{item.quantity}</Text>
+            <TouchableOpacity onPress={() => removeCartItem(item)}>
+              <Ionicons name="remove-circle" size={24} />
+            </TouchableOpacity>
+          </View>
+        
         </View>
       </View>
     );
@@ -54,7 +72,7 @@ export default function CartScreen() {
             renderItem={renderItem}
           />
           <Text style={styles.total}>Total: ₹{total.toFixed(2)}</Text>
-          <Button title="Clear Cart" onPress={clearCart}  />
+          <Button title="Clear Cart" onPress={clearCart} />
           <Text ></Text>
           <Button title="Proceed to Checkout" onPress={() => { /* add logic */ }} />
         </>
@@ -64,7 +82,7 @@ export default function CartScreen() {
         </View>
       )}
     </View>
-);
+  );
 }
 
 const styles = StyleSheet.create({
@@ -87,10 +105,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 12,
     alignItems: 'center',
+    backgroundColor:"lightgray"
   },
   image: {
-    width: 70,
-    height: 70,
+    
+    width: 100,
+    height: 100,
     borderRadius: 8,
     marginRight: 12,
   },
@@ -100,6 +120,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: 'bold',
+    padding:5
   },
   total: {
     fontSize: 18,
