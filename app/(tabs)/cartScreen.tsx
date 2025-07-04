@@ -7,15 +7,16 @@ export default function CartScreen() {
   const { cartItems, removeCartItem, clearCart, addToCart } = useCart();
 
   const [loading, setLoading] = React.useState(true);
-const addTocartFromCart = async(item:CartItem)=>{
-  await addToCart({
-    productId: item.productId,
-    name:item.name,
-    imageUrl:item.imageUrl,
-    price:item.price,
-    quantity:item.quantity
-})
-}
+  
+  const addTocartFromCart = async (item: CartItem) => {
+    await addToCart({
+      productId: item.productId,
+      name: item.name,
+      imageUrl: item.imageUrl,
+      price: item.price,
+      quantity: item.quantity
+    })
+  }
   React.useEffect(() => {
     // Delay to simulate loading (optional)
     const timeout = setTimeout(() => {
@@ -37,17 +38,17 @@ const addTocartFromCart = async(item:CartItem)=>{
         <Image source={{ uri: item.imageUrl }} style={styles.image} />
         <View style={styles.info}>
           <Text style={styles.name}>{item.name}</Text>
-          <Text style={{fontSize: 16,}}>₹{item.price} x {item.quantity} = ₹{item.price * item.quantity}</Text>
-          <View style={{  flexDirection: "row", padding:10 }}>
-            <TouchableOpacity onPress={()=>addTocartFromCart(item)}>
+          <Text style={{ fontSize: 16, }}>₹{item.price} x {item.quantity} = ₹{item.price * item.quantity}</Text>
+          <View style={{ flexDirection: "row", padding: 10 }}>
+            <TouchableOpacity onPress={() => addTocartFromCart(item)}>
               <Ionicons name="add-circle" size={24} />
             </TouchableOpacity>
-            <Text style={{fontSize: 18, fontWeight:"800", marginLeft:7, marginRight:7}}>{item.quantity}</Text>
+            <Text style={{ fontSize: 18, fontWeight: "800", marginLeft: 7, marginRight: 7 }}>{item.quantity}</Text>
             <TouchableOpacity onPress={() => removeCartItem(item)}>
               <Ionicons name="remove-circle" size={24} />
             </TouchableOpacity>
           </View>
-        
+
         </View>
       </View>
     );
@@ -105,10 +106,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 12,
     alignItems: 'center',
-    backgroundColor:"lightgray"
+    backgroundColor: "lightgray"
   },
   image: {
-    
+
     width: 100,
     height: 100,
     borderRadius: 8,
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: 'bold',
-    padding:5
+    padding: 5
   },
   total: {
     fontSize: 18,

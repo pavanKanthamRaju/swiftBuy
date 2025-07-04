@@ -61,6 +61,6 @@ public class ExpoModulesProvider: ModulesProvider {
   }
 
   public override func getAppCodeSignEntitlements() -> AppCodeSignEntitlements {
-    return AppCodeSignEntitlements.from(json: #"{"appGroups":["group.com.wavemaker.swiftBuy"]}"#)
+    return AppCodeSignEntitlements.from(json: #"{}"#)
   }
 }
